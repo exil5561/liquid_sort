@@ -6,6 +6,7 @@
 # Codemagic UI setup (one-time):
 # 1. Add this GitHub repo as a Codemagic application.
 # 2. Teams > Integrations > Developer Portal: connect App Store Connect API key.
+#    The key *name* below (integrations.app_store_connect) must match that name.
 # 3. In Application settings, enable this codemagic.yaml (workflow: ios-release).
 # 4. Code signing uses automatic profiles for com.taslaktech.games.liquidsort.
 
@@ -14,6 +15,11 @@ workflows:
     name: iOS Release (TestFlight)
     max_build_duration: 90
     instance_type: mac_mini_m2
+
+    integrations:
+      # Must match the App Store Connect API key name in Codemagic
+      # Team settings > Integrations > Developer Portal.
+      app_store_connect: App Store Connect
 
     environment:
       flutter: 3.41.6
