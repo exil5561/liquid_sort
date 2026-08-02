@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:liquid_sort/features/game/data/campaign_levels.dart';
 import 'package:liquid_sort/features/game/domain/game_state.dart';
 import 'package:liquid_sort/features/game/presentation/widgets/tube_board.dart';
+import 'package:liquid_sort/l10n/app_localizations.dart';
 
 void main() {
   testWidgets('initial liquid tubes render above empty tube slots', (
@@ -17,9 +18,13 @@ void main() {
 
     await tester.pumpWidget(
       MaterialApp(
+        locale: const Locale('en'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         home: Scaffold(
           body: SizedBox(
             width: 390,
+            height: 640,
             child: TubeBoard(
               gameState: GameState.fromLevel(CampaignLevels.byNumber(1)),
               animation: pour,
