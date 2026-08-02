@@ -20,7 +20,7 @@ final gameControllerProvider = NotifierProvider<GameController, GameState>(
   GameController.new,
 );
 
-enum GameFailureReason { time, moveLimit, bomb, completionOrder }
+enum GameFailureReason { time, moveLimit, bomb }
 
 class GameController extends Notifier<GameState> {
   bool _moveCommitted = false;
@@ -158,7 +158,6 @@ class GameController extends Notifier<GameState> {
   void commitPour(PourResult result) {
     if (_moveCommitted || !result.isSuccess) return;
     _moveCommitted = true;
-    _checkCompletionOrder(result);
     state = state.copyWith(
       tubes: result.tubes,
       moveCount: state.moveCount + 1,
@@ -167,39 +166,9 @@ class GameController extends Notifier<GameState> {
     );
   }
 
-  void _checkCompletionOrder(PourResult result) {
-    if (_level.completionOrder.isEmpty) return;
-    final beforeCompleted = result.move!.beforeTubes
-        .where((tube) => tube.isCompleted)
-        .map((tube) => tube.topColor!)
-        .toSet();
-    final afterCompleted = result.tubes
-        .where((tube) => tube.isCompleted)
-        .map((tube) => tube.topColor!)
-        .toSet();
-    final newlyCompleted = afterCompleted.difference(beforeCompleted);
-    var progress = 0;
-    while (progress < _level.completionOrder.length &&
-        beforeCompleted.contains(_level.completionOrder[progress])) {
-      progress++;
-    }
-    for (final color in newlyCompleted) {
-      final remaining = _level.completionOrder.skip(progress);
-      if (!remaining.contains(color)) continue;
-      if (progress >= _level.completionOrder.length ||
-          color != _level.completionOrder[progress]) {
-        _failureReason = GameFailureReason.completionOrder;
-        return;
-      }
-      progress++;
-    }
-  }
-
   void finishPourAnimation() {
     if (!_moveCommitted || state.status != GameStatus.animating) return;
-    if (_failureReason == GameFailureReason.completionOrder) {
-      state = state.copyWith(status: GameStatus.failed);
-    } else if (state.isSolved) {
+    if (state.isSolved) {
       state = state.copyWith(status: GameStatus.completed);
       unawaited(
         ref
@@ -222,11 +191,11 @@ class GameController extends Notifier<GameState> {
     }
   }
 
-  void undo() {
-    if (state.status != GameStatus.playing ||
-        state.history.isEmpty ||
-        state.freeUndosRemaining <= 0) {
-      return;
+  /// Returns `true` when an undo was applied.
+  /// Prefer spending a free undo charge when available; otherwise caller pays coins.
+  bool undo({bool consumeFreeCharge = true}) {
+    if (state.status != GameStatus.playing || state.history.isEmpty) {
+      return false;
     }
     final move = state.history.last;
     var restored = move.beforeTubes;
@@ -237,6 +206,9 @@ class GameController extends Notifier<GameState> {
         TubeModel(id: 'extra-${state.currentLevel}', liquids: const []),
       ];
     }
+    final nextFree = consumeFreeCharge && state.freeUndosRemaining > 0
+        ? state.freeUndosRemaining - 1
+        : state.freeUndosRemaining;
     state = state.copyWith(
       tubes: restored,
       moveCount: move.beforeMoveCount,
@@ -244,10 +216,11 @@ class GameController extends Notifier<GameState> {
       selectedTubeId: null,
       hintSourceId: null,
       hintDestinationId: null,
-      freeUndosRemaining: state.freeUndosRemaining - 1,
+      freeUndosRemaining: nextFree,
       undoUses: state.undoUses + 1,
     );
     unawaited(ref.read(feedbackServiceProvider).undo());
+    return true;
   }
 
   void restart() {
@@ -287,7 +260,7 @@ class GameController extends Notifier<GameState> {
           _level.portalTubeA != null ||
           _level.valveTubeId != null ||
           _level.bombTubeId != null ||
-          _level.completionOrder.isNotEmpty) {
+          _level.hasNarrowTube) {
         final hint = _quickAvailableHint(snapshot);
         solution = hint == null ? null : [hint];
       } else if (kIsWeb) {

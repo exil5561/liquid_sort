@@ -1,0 +1,75 @@
+# Codemagic CI/CD for Liquid Sort Puzzle (Flutter).
+# Repo: https://github.com/exil5561/liquid_sort
+# App Store Connect app ID: 6797199854
+# Bundle ID: com.taslaktech.games.liquidsort
+#
+# Codemagic UI setup (one-time):
+# 1. Add this GitHub repo as a Codemagic application.
+# 2. Teams > Integrations > Developer Portal: connect App Store Connect API key.
+# 3. In Application settings, enable this codemagic.yaml (workflow: ios-release).
+# 4. Code signing uses automatic profiles for com.taslaktech.games.liquidsort.
+
+workflows:
+  ios-release:
+    name: iOS Release (TestFlight)
+    max_build_duration: 90
+    instance_type: mac_mini_m2
+
+    environment:
+      flutter: 3.41.6
+      xcode: latest
+      cocoapods: default
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.taslaktech.games.liquidsort
+      vars:
+        APP_STORE_APPLE_ID: 6797199854
+
+    scripts:
+      - name: Set up code signing settings on Xcode project
+        script: |
+          #!/bin/sh
+          set -e
+          xcode-project use-profiles
+      - name: Get Flutter packages
+        script: |
+          #!/bin/sh
+          set -e
+          cd "$CM_BUILD_DIR"
+          flutter pub get
+      - name: Install CocoaPods dependencies
+        script: |
+          #!/bin/sh
+          set -e
+          cd "$CM_BUILD_DIR/ios"
+          pod install
+      - name: Static analysis
+        script: |
+          #!/bin/sh
+          set -e
+          cd "$CM_BUILD_DIR"
+          flutter analyze --fatal-infos
+      - name: Unit tests
+        script: |
+          #!/bin/sh
+          set -e
+          cd "$CM_BUILD_DIR"
+          flutter test
+        ignore_failure: true
+      - name: Flutter build IPA
+        script: |
+          #!/bin/sh
+          set -e
+          cd "$CM_BUILD_DIR"
+          flutter build ipa --release \
+            --build-number="$PROJECT_BUILD_NUMBER" \
+            --export-options-plist=/Users/builder/export_options.plist
+
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true

@@ -36,8 +36,6 @@ class FlowComboState {
   final GameMove? lastQualifiedMove;
 
   bool get isLegendary => currentMultiplier >= 6;
-  String get label =>
-      isLegendary ? 'Efsanevi Akış' : 'Flow x$currentMultiplier';
 
   double get progressToNext {
     if (currentMultiplier >= rewardThresholds.length) return 1;

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../app/theme/app_colors.dart';
 import '../../../../core/widgets/glass_panel.dart';
+import '../../../../l10n/l10n_extensions.dart';
 import '../../domain/achievement_result.dart';
 import '../../domain/level_result.dart';
 
@@ -59,6 +60,16 @@ class _LevelCompleteOverlayState extends State<LevelCompleteOverlay>
 
   int get _targetCoins => widget.result?.reward.totalCoins ?? 0;
 
+  String _starRewardLabel(AppLocalizations l10n, int stars, double multiplier) {
+    final percent = (multiplier * 100).round();
+    final tone = switch (stars) {
+      3 => l10n.fullReward,
+      2 => l10n.halfReward,
+      _ => l10n.quarterReward,
+    };
+    return l10n.starRewardLabel(stars, tone, percent);
+  }
+
   @override
   void didUpdateWidget(covariant LevelCompleteOverlay oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -95,6 +106,7 @@ class _LevelCompleteOverlayState extends State<LevelCompleteOverlay>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final result = widget.result;
     final stars =
         result?.stars ??
@@ -145,9 +157,11 @@ class _LevelCompleteOverlayState extends State<LevelCompleteOverlay>
                               shaderCallback: (bounds) => const LinearGradient(
                                 colors: [Color(0xFFFFE59B), Color(0xFFFFB423)],
                               ).createShader(bounds),
-                              child: const Text(
-                                'MÜKEMMEL!',
-                                style: TextStyle(
+                              child: Text(
+                                l10n.perfect,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 29,
                                   fontWeight: FontWeight.w900,
@@ -157,7 +171,7 @@ class _LevelCompleteOverlayState extends State<LevelCompleteOverlay>
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              '${widget.level}. bölüm tamamlandı',
+                              l10n.levelCompleted(widget.level),
                               style: const TextStyle(
                                 color: AppColors.textMuted,
                               ),
@@ -179,7 +193,8 @@ class _LevelCompleteOverlayState extends State<LevelCompleteOverlay>
                             ),
                             const SizedBox(height: 12),
                             Text(
-                              '${widget.moves} hamle  •  Par ${widget.parMoves}',
+                              l10n.movesAndPar(widget.moves, widget.parMoves,
+                              ),
                               style: const TextStyle(
                                 color: AppColors.text,
                                 fontWeight: FontWeight.w800,
@@ -194,8 +209,10 @@ class _LevelCompleteOverlayState extends State<LevelCompleteOverlay>
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     result.isNewBest
-                                        ? 'YENİ REKOR • BAŞARILAR'
-                                        : 'BAŞARILAR',
+                                        ? l10n.newRecordAchievements
+                                        : l10n.achievementsHeader,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
                                       color: Color(0xFFFFD166),
                                       fontSize: 10,
@@ -260,11 +277,27 @@ class _LevelCompleteOverlayState extends State<LevelCompleteOverlay>
                                         ),
                                       ],
                                     ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 4),
+                                      child: Text(
+                                        _starRewardLabel(
+                                          l10n,
+                                          stars,
+                                          result.reward.starMultiplier,
+                                        ),
+                                        style: const TextStyle(
+                                          color: Color(0xFFFFD166),
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w800,
+                                        ),
+                                      ),
+                                    ),
                                     if (result.reward.assistancePenalty > 0)
                                       Padding(
                                         padding: const EdgeInsets.only(top: 3),
                                         child: Text(
-                                          'İpucu cezası: -${result.reward.assistancePenalty} coin',
+                                          l10n.assistancePenalty(result.reward.assistancePenalty,
+                                          ),
                                           style: const TextStyle(
                                             color: Color(0xFFFF8A9B),
                                             fontSize: 11,
@@ -299,10 +332,15 @@ class _LevelCompleteOverlayState extends State<LevelCompleteOverlay>
                                         : const Icon(
                                             Icons.ondemand_video_rounded,
                                           ),
-                                    label: const Text(
-                                      'ÖDÜLÜ 2X AL',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w900,
+                                    label: FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: Text(
+                                        l10n.doubleReward,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w900,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -323,17 +361,24 @@ class _LevelCompleteOverlayState extends State<LevelCompleteOverlay>
                                 ),
                                 onPressed: widget.onNext,
                                 icon: const Icon(Icons.arrow_forward_rounded),
-                                label: Text(
-                                  widget.level == 50 ? 'BÖLÜMLER' : 'DEVAM',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w900,
+                                label: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Text(
+                                    widget.level == 50
+                                        ? l10n.goToLevels
+                                        : l10n.continueNext,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w900,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                             TextButton(
                               onPressed: widget.onLevels,
-                              child: const Text('Bölüm seçimine dön'),
+                              child: Text(l10n.backToLevelSelect),
                             ),
                           ],
                         ),
@@ -390,32 +435,35 @@ class _ResultGrid extends StatelessWidget {
   final LevelResult result;
 
   @override
-  Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.all(10),
-    decoration: BoxDecoration(
-      color: const Color(0x66101834),
-      borderRadius: BorderRadius.circular(15),
-      border: Border.all(color: const Color(0x334E64A5)),
-    ),
-    child: Column(
-      children: [
-        Row(
-          children: [
-            _item('En iyi', '${result.previousBest ?? '—'}'),
-            _item('Flow Combo', 'x${result.highestFlowCombo}'),
-          ],
-        ),
-        const Divider(height: 13, color: Color(0x284E64A5)),
-        Row(
-          children: [
-            _item('Geri al', '${result.undoUses}'),
-            _item('İpucu', '${result.hintUses}'),
-            _item('Ekstra tüp', result.extraTubeUsed ? '1' : '0'),
-          ],
-        ),
-      ],
-    ),
-  );
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    return Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: const Color(0x66101834),
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(color: const Color(0x334E64A5)),
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              _item(l10n.bestLabel, '${result.previousBest ?? '—'}'),
+              _item(l10n.flowCombo, 'x${result.highestFlowCombo}'),
+            ],
+          ),
+          const Divider(height: 13, color: Color(0x284E64A5)),
+          Row(
+            children: [
+              _item(l10n.undo, '${result.undoUses}'),
+              _item(l10n.hint, '${result.hintUses}'),
+              _item(l10n.extraTube, result.extraTubeUsed ? '1' : '0'),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget _item(String label, String value) => Expanded(
     child: Column(
@@ -440,9 +488,11 @@ class _AchievementChip extends StatelessWidget {
   final AchievementResult achievement;
 
   @override
-  Widget build(BuildContext context) => Tooltip(
-    message: achievement.description,
-    child: Container(
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    return Tooltip(
+      message: achievement.id.description(l10n),
+      child: Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
       decoration: BoxDecoration(
         color: const Color(0x33456CE8),
@@ -455,13 +505,16 @@ class _AchievementChip extends StatelessWidget {
           Icon(_iconFor(achievement.id), color: AppColors.cyan, size: 13),
           const SizedBox(width: 4),
           Text(
-            achievement.title,
+            achievement.id.title(l10n),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w800),
           ),
         ],
       ),
     ),
   );
+  }
 
   IconData _iconFor(AchievementId id) => switch (id) {
     AchievementId.perfectSort => Icons.auto_awesome_rounded,

@@ -27,17 +27,3 @@ class ColorMixRecipe {
   };
 }
 
-extension LiquidColorName on LiquidColorId {
-  String get turkishName => switch (this) {
-    LiquidColorId.red => 'Kırmızı',
-    LiquidColorId.blue => 'Mavi',
-    LiquidColorId.purple => 'Mor',
-    LiquidColorId.yellow => 'Sarı',
-    LiquidColorId.green => 'Yeşil',
-    LiquidColorId.orange => 'Turuncu',
-    LiquidColorId.pink => 'Pembe',
-    LiquidColorId.cyan => 'Camgöbeği',
-    LiquidColorId.lime => 'Limon',
-    LiquidColorId.brown => 'Kahverengi',
-  };
-}

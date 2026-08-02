@@ -18,9 +18,9 @@ class LevelValidator {
     final ids = <String>{};
     final counts = <Object, int>{};
     for (final tube in level.tubes) {
-      if (tube.capacity != 4) {
+      if (tube.capacity < 2 || tube.capacity > 4) {
         throw LevelValidationException(
-          'Level ${level.number}: tube ${tube.id} must have capacity 4.',
+          'Level ${level.number}: tube ${tube.id} capacity must be 2-4.',
         );
       }
       if (tube.liquids.length > tube.capacity) {

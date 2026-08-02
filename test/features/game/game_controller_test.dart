@@ -34,12 +34,12 @@ void main() {
     expect(container.read(gameControllerProvider).moveCount, 1);
     expect(container.read(gameControllerProvider).status, GameStatus.playing);
 
-    controller.undo();
+    expect(controller.undo(consumeFreeCharge: false), isTrue);
     final restored = container.read(gameControllerProvider);
     expect(restored.moveCount, 0);
     expect(restored.tubes, before);
     expect(restored.selectedTubeId, isNull);
-    expect(restored.freeUndosRemaining, 4);
+    expect(restored.undoUses, 1);
   });
 
   test('restart removes the temporary extra tube', () {
@@ -89,7 +89,22 @@ class _MemoryProgress implements ProgressRepository {
   Future<void> setSoundEnabled(bool enabled) async {}
   @override
   Future<void> setTempoEnabled(bool enabled) async {}
+  @override
+  bool hasSeenMechanicIntro(String mechanicKey) => true;
+  @override
+  Future<void> markMechanicIntroSeen(String mechanicKey) async {}
+  @override
+  int failureCountFor(int level) => 0;
+  @override
+  Future<void> recordLevelFailure(int level) async {}
+  @override
+  bool hasUsedLevelSkip(int level) => false;
+  @override
+  Future<int?> unlockNextLevelBySkip(int level, {required int maxLevel}) async =>
+      null;
 }
+
+// Keep ProgressRepository mock compiling if Reward methods are needed elsewhere.
 
 class _SilentFeedback implements FeedbackService {
   const _SilentFeedback();

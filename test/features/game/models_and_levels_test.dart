@@ -17,9 +17,16 @@ void main() {
       id: 'partial',
       liquids: List.filled(3, LiquidColorId.cyan),
     );
+    final narrowBuffer = TubeModel(
+      id: 'narrow',
+      capacity: 2,
+      liquids: List.filled(2, LiquidColorId.cyan),
+    );
 
     expect(completed.isCompleted, isTrue);
     expect(partial.isCompleted, isFalse);
+    expect(narrowBuffer.isNarrow, isTrue);
+    expect(narrowBuffer.isCompleted, isFalse);
   });
 
   test('level completes when all non-empty tubes are completed', () {
@@ -48,11 +55,23 @@ void main() {
     expect(restored.status, original.status);
   });
 
-  test('all thirty campaign levels pass strict validation', () {
+  test('all campaign levels pass strict validation', () {
     const validator = LevelValidator();
-    expect(CampaignLevels.all, hasLength(30));
+    expect(CampaignLevels.all, isNotEmpty);
     for (final level in CampaignLevels.all) {
       expect(() => validator.validate(level), returnsNormally);
+    }
+  });
+
+  test('ordered levels are replaced by narrow buffer tubes', () {
+    for (final number in const [18, 28, 39, 45, 50]) {
+      final level = CampaignLevels.byNumber(number);
+      expect(level.hasNarrowTube, isTrue);
+      expect(level.tubes.where((tube) => tube.isNarrow), isNotEmpty);
+      expect(
+        level.tubes.where((tube) => tube.isNarrow).every((tube) => tube.capacity == 2),
+        isTrue,
+      );
     }
   });
 

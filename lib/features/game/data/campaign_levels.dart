@@ -97,7 +97,7 @@ class CampaignLevels {
   static const _bombLevels = {16, 20, 34, 38, 40, 46, 50};
   static const _valveLevels = {12, 24, 35, 41, 47, 50};
   static const _movingLevels = {25, 37, 43, 49, 50};
-  static const _orderedLevels = {18, 28, 39, 45, 50};
+  static const _narrowLevels = {18, 28, 39, 45, 50};
 
   static final List<LevelDefinition> all = _buildLevels();
 
@@ -286,10 +286,6 @@ class CampaignLevels {
     final levelTubes = [...tubes];
     final firstEmptyId = levelTubes[levelTubes.length - 2].id;
     final lastEmptyId = levelTubes.last.id;
-    final puzzleColors = levelTubes
-        .expand((tube) => tube.liquids)
-        .toSet()
-        .toList(growable: false);
     final heatCapacity = _heatCapacityFor(number);
     String? heatedTubeId;
     if (heatCapacity > 0) {
@@ -312,16 +308,14 @@ class CampaignLevels {
     if (valveTubeId != null) {
       levelTubes.add(TubeModel(id: valveTubeId, liquids: const []));
     }
-    final completionOrder = _orderedLevels.contains(number)
-        ? (mixRecipes.isNotEmpty
-              ? const [
-                  LiquidColorId.cyan,
-                  LiquidColorId.orange,
-                  LiquidColorId.green,
-                  LiquidColorId.purple,
-                ]
-              : puzzleColors.take(3).toList(growable: false))
-        : const <LiquidColorId>[];
+    if (_narrowLevels.contains(number)) {
+      final narrowIndex = levelTubes.indexWhere(
+        (tube) => tube.id == lastEmptyId,
+      );
+      if (narrowIndex != -1) {
+        levelTubes[narrowIndex] = levelTubes[narrowIndex].copyWith(capacity: 2);
+      }
+    }
     return LevelDefinition(
       number: number,
       parMoves: parMoves,
@@ -330,6 +324,8 @@ class CampaignLevels {
           ? 'Temel Eğitim'
           : isBoss
           ? 'Boss Deneyi'
+          : _narrowLevels.contains(number)
+          ? 'Dar Tüp Laboratuvarı'
           : _portalLevels.contains(number)
           ? 'Portal Laboratuvarı'
           : _bombLevels.contains(number)
@@ -359,7 +355,6 @@ class CampaignLevels {
       bombTubeId: _bombLevels.contains(number) ? 't1' : null,
       bombMoveLimit: _bombLevels.contains(number) ? parMoves - 3 : null,
       movingEveryMoves: _movingLevels.contains(number) ? 3 : 0,
-      completionOrder: completionOrder,
       mixRecipes: mixRecipes,
       showMixGuide: showMixGuide,
       isBoss: isBoss,

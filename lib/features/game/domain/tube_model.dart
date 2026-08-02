@@ -28,7 +28,10 @@ class TubeModel {
   LiquidColorId? get topColor => isEmpty ? null : liquids.last;
   bool get isUniform =>
       isEmpty || liquids.every((color) => color == liquids.first);
-  bool get isCompleted => isFull && isUniform;
+  /// Narrow buffer tubes (capacity < 4) are temporary storage only and never
+  /// count as completed even when filled with one color.
+  bool get isCompleted => isFull && isUniform && capacity >= 4;
+  bool get isNarrow => capacity < 4;
 
   int get topGroupSize {
     if (isEmpty) return 0;

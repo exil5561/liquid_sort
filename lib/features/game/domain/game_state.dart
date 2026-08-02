@@ -15,7 +15,7 @@ class GameState {
     required this.status,
     this.selectedTubeId,
     this.extraTubeUsed = false,
-    this.freeUndosRemaining = 5,
+    this.freeUndosRemaining = 0,
     this.undoUses = 0,
     this.hintUses = 0,
     this.hintSourceId,

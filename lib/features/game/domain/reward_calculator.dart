@@ -1,5 +1,7 @@
+import '../../settings/domain/game_difficulty.dart';
 import 'achievement_result.dart';
 import 'flow_combo_state.dart';
+import 'game_economy.dart';
 import 'reward_breakdown.dart';
 
 class RewardCalculator {
@@ -11,21 +13,25 @@ class RewardCalculator {
     required FlowComboState flow,
     required List<AchievementResult> achievements,
     int hintUses = 0,
+    GameDifficulty difficulty = GameDifficulty.normal,
   }) {
-    final base = 18 + (level * 2).clamp(2, 50);
-    final efficiency = switch (stars) {
-      3 => 18,
-      2 => 8,
-      _ => 0,
+    // Star payout only: L1 = 20 / 10 / 5. Combo/achievements don't add coins.
+    final starMultiplier = switch (stars) {
+      3 => 1.0, // %100
+      2 => 0.5, // %50
+      _ => 0.25, // %25
     };
+    final base = GameEconomy.baseCoinsForLevel(level);
+    final scaledBase = difficulty == GameDifficulty.easy
+        ? (base * GameEconomy.easyModeRewardScale).round().clamp(1, base)
+        : base;
     return RewardBreakdown(
-      baseCoins: base,
-      comboBonus:
-          flow.earnedCoinBonus +
-          (flow.highestComboThisLevel - 1).clamp(0, 5) * 3,
-      efficiencyBonus: efficiency,
-      achievementBonus: achievements.length * 3,
-      assistancePenalty: hintUses * 8,
+      baseCoins: scaledBase,
+      comboBonus: 0,
+      efficiencyBonus: 0,
+      achievementBonus: 0,
+      assistancePenalty: 0,
+      starMultiplier: starMultiplier,
     );
   }
 }

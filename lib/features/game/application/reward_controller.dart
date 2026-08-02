@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/ads/ad_service.dart';
 import '../../../core/services/premium_feedback_service.dart';
 import '../../progress/data/progress_repository.dart';
+import '../../settings/domain/game_difficulty.dart';
 import '../domain/achievement_result.dart';
 import '../domain/flow_combo_state.dart';
 import '../domain/level_result.dart';
@@ -51,12 +52,17 @@ class RewardController extends Notifier<LevelResult?> {
       firstTry: firstTry,
       highestFlow: flow.highestComboThisLevel,
     );
+    final repository = ref.read(progressRepositoryProvider);
+    final difficulty = repository is DifficultyPreferences
+        ? (repository as DifficultyPreferences).difficulty
+        : GameDifficulty.normal;
     final reward = _rewardCalculator.calculate(
       level: level,
       stars: stars,
       flow: flow,
       achievements: achievements,
       hintUses: hintUses,
+      difficulty: difficulty,
     );
     final result = LevelResult(
       level: level,
@@ -73,7 +79,6 @@ class RewardController extends Notifier<LevelResult?> {
     );
     state = result;
 
-    final repository = ref.read(progressRepositoryProvider);
     await repository.saveLevelCompleted(level, moves);
     final rewardRepository = repository is RewardProgressRepository
         ? repository as RewardProgressRepository
@@ -119,75 +124,27 @@ class RewardController extends Notifier<LevelResult?> {
   }) {
     final results = <AchievementResult>[];
     if (moves <= parMoves && undoUses == 0 && hintUses == 0) {
-      results.add(
-        const AchievementResult(
-          id: AchievementId.perfectSort,
-          title: 'Kusursuz Sıralama',
-          description: 'Par içinde, yardım almadan tamamlandı',
-        ),
-      );
+      results.add(const AchievementResult(id: AchievementId.perfectSort));
     } else if (moves <= parMoves) {
-      results.add(
-        const AchievementResult(
-          id: AchievementId.underPar,
-          title: 'Par Altı',
-          description: 'Hedef hamle sayısı aşılmadı',
-        ),
-      );
+      results.add(const AchievementResult(id: AchievementId.underPar));
     }
     if (undoUses == 0) {
-      results.add(
-        const AchievementResult(
-          id: AchievementId.noUndo,
-          title: 'Geri Almasız',
-          description: 'Hiç geri alma kullanılmadı',
-        ),
-      );
+      results.add(const AchievementResult(id: AchievementId.noUndo));
     }
     if (hintUses == 0) {
-      results.add(
-        const AchievementResult(
-          id: AchievementId.noHint,
-          title: 'İpucusuz',
-          description: 'Çözüm tamamen sana ait',
-        ),
-      );
+      results.add(const AchievementResult(id: AchievementId.noHint));
     }
     if (highestFlow >= 5) {
-      results.add(
-        const AchievementResult(
-          id: AchievementId.flowMaster,
-          title: 'Flow Ustası',
-          description: 'Flow x5 seviyesine ulaşıldı',
-        ),
-      );
+      results.add(const AchievementResult(id: AchievementId.flowMaster));
     }
     if (previousBest == null || moves < previousBest) {
-      results.add(
-        const AchievementResult(
-          id: AchievementId.newRecord,
-          title: 'Yeni Rekor',
-          description: 'Yeni en iyi hamle sayısı',
-        ),
-      );
+      results.add(const AchievementResult(id: AchievementId.newRecord));
     }
     if (firstTry) {
-      results.add(
-        const AchievementResult(
-          id: AchievementId.firstTry,
-          title: 'İlk Deneme',
-          description: 'Bölüm yeniden başlamadan bitti',
-        ),
-      );
+      results.add(const AchievementResult(id: AchievementId.firstTry));
     }
     if (!extraTubeUsed) {
-      results.add(
-        const AchievementResult(
-          id: AchievementId.noExtraTube,
-          title: 'Ekstra Tüpsüz',
-          description: 'Ekstra tüpe ihtiyaç olmadı',
-        ),
-      );
+      results.add(const AchievementResult(id: AchievementId.noExtraTube));
     }
     return results.take(4).toList(growable: false);
   }

@@ -1,5 +1,4 @@
 import 'color_mix_recipe.dart';
-import 'liquid_color_id.dart';
 import 'tube_model.dart';
 
 class LevelDefinition {
@@ -22,7 +21,6 @@ class LevelDefinition {
     this.bombTubeId,
     this.bombMoveLimit,
     this.movingEveryMoves = 0,
-    this.completionOrder = const [],
     List<ColorMixRecipe> mixRecipes = const [],
     this.showMixGuide = false,
     this.isBoss = false,
@@ -54,10 +52,6 @@ class LevelDefinition {
         bombTubeId: json['bombTubeId'] as String?,
         bombMoveLimit: json['bombMoveLimit'] as int?,
         movingEveryMoves: json['movingEveryMoves'] as int? ?? 0,
-        completionOrder: (json['completionOrder'] as List<Object?>? ?? const [])
-            .cast<String>()
-            .map(LiquidColorId.fromJson)
-            .toList(),
         mixRecipes: (json['mixRecipes'] as List<Object?>? ?? const [])
             .cast<Map<String, Object?>>()
             .map(ColorMixRecipe.fromJson)
@@ -85,11 +79,12 @@ class LevelDefinition {
   final String? bombTubeId;
   final int? bombMoveLimit;
   final int movingEveryMoves;
-  final List<LiquidColorId> completionOrder;
   final List<ColorMixRecipe> mixRecipes;
   final bool showMixGuide;
   final bool isBoss;
   final int? moveLimit;
+
+  bool get hasNarrowTube => tubes.any((tube) => tube.isNarrow);
 
   LevelDefinition copyWith({
     int? number,
@@ -110,7 +105,6 @@ class LevelDefinition {
     String? bombTubeId,
     int? bombMoveLimit,
     int? movingEveryMoves,
-    List<LiquidColorId>? completionOrder,
     List<ColorMixRecipe>? mixRecipes,
     bool? showMixGuide,
     bool? isBoss,
@@ -135,7 +129,6 @@ class LevelDefinition {
     bombTubeId: bombTubeId ?? this.bombTubeId,
     bombMoveLimit: bombMoveLimit ?? this.bombMoveLimit,
     movingEveryMoves: movingEveryMoves ?? this.movingEveryMoves,
-    completionOrder: completionOrder ?? this.completionOrder,
     mixRecipes: mixRecipes ?? this.mixRecipes,
     showMixGuide: showMixGuide ?? this.showMixGuide,
     isBoss: isBoss ?? this.isBoss,
@@ -161,7 +154,6 @@ class LevelDefinition {
     'bombTubeId': bombTubeId,
     'bombMoveLimit': bombMoveLimit,
     'movingEveryMoves': movingEveryMoves,
-    'completionOrder': completionOrder.map((color) => color.toJson()).toList(),
     'mixRecipes': mixRecipes.map((recipe) => recipe.toJson()).toList(),
     'showMixGuide': showMixGuide,
     'isBoss': isBoss,

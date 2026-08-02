@@ -1,4 +1,4 @@
-package com.luminara.games.liquid_sort
+package com.taslaktech.liquidsort
 
 import io.flutter.embedding.android.FlutterActivity
 

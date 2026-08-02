@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../app/theme/app_colors.dart';
+import '../../../../l10n/l10n_extensions.dart';
 import '../../domain/flow_combo_state.dart';
 
 class FlowComboBar extends StatelessWidget {
@@ -9,8 +10,13 @@ class FlowComboBar extends StatelessWidget {
   final FlowComboState flow;
   final bool compact;
 
+  String _label(AppLocalizations l10n) => flow.isLegendary
+      ? l10n.legendaryFlowLabel
+      : l10n.flowLabel(flow.currentMultiplier);
+
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final color = flow.isLegendary
         ? const Color(0xFFFFD166)
         : Color.lerp(
@@ -36,7 +42,11 @@ class FlowComboBar extends StatelessWidget {
         child: Row(
           children: [
             Text(
-              flow.isLegendary ? 'FLOW x6+' : 'FLOW x${flow.currentMultiplier}',
+              flow.isLegendary
+                  ? l10n.legendaryFlow
+                  : l10n.flowMultiplier(flow.currentMultiplier),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: flow.currentMultiplier >= 4
                     ? const Color(0xFFFFD166)
@@ -101,8 +111,11 @@ class FlowComboBar extends StatelessWidget {
                   child: child,
                 ),
                 child: Text(
-                  flow.label.toUpperCase(),
+                  // Keep script casing as authored in ARB (important for Arabic/CJK).
+                  _label(l10n),
                   key: ValueKey(flow.currentMultiplier),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: color,
                     fontWeight: FontWeight.w900,

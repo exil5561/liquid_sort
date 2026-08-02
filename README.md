@@ -7,7 +7,7 @@ Tüplerdeki renkli sıvıları dökerek her tüpü tek renge ayır. İlerleyen s
 ## Özellikler
 
 - Kampanya: 50 seviye
-- Mekanikler: mix, hidden, frozen, locked, heated, portal, bomb, valve, moving, ordered
+- Mekanikler: mix, hidden, frozen, locked, heated, portal, bomb, valve, moving, narrow (dar tüp)
 - Undo / restart, ipucu (solver), yıldız puanlama
 - Progress kaydı (`shared_preferences`)
 - Ses, titreşim ve premium hissiyatlı UI (cosmic backdrop, glass tubes)
@@ -48,3 +48,31 @@ flutter build apk --release
 ```
 
 Çıktı: `build/app/outputs/flutter-apk/app-release.apk`
+
+## iOS / App Store Connect
+
+- App name: Liquid Sort Puzzle
+- Bundle ID: `com.taslaktech.games.liquidsort`
+- App Store Connect ID: `6797199854`
+- CI: GitHub (`exil5561/liquid_sort`) + Codemagic (`codemagic.yaml` → `ios-release`)
+
+### App icon
+
+Tek kaynak dosya (1024×1024, şeffaflık yok):
+
+`assets/images/app_icon.png`
+
+Sonra üret:
+
+```bash
+dart run flutter_launcher_icons
+```
+
+iOS çıktıları: `ios/Runner/Assets.xcassets/AppIcon.appiconset/`
+
+### Codemagic (bir kez)
+
+1. Codemagic’e GitHub reposunu ekle
+2. Team Integrations → Developer Portal / App Store Connect API key bağla
+3. Application settings’te `codemagic.yaml` kullan
+4. Workflow: `ios-release` (TestFlight)

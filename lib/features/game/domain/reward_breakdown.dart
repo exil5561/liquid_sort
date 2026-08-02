@@ -5,6 +5,7 @@ class RewardBreakdown {
     required this.efficiencyBonus,
     required this.achievementBonus,
     this.assistancePenalty = 0,
+    this.starMultiplier = 1,
     this.isDoubled = false,
   });
 
@@ -13,9 +14,12 @@ class RewardBreakdown {
   final int efficiencyBonus;
   final int achievementBonus;
   final int assistancePenalty;
+
+  /// 1.0 / 0.5 / 0.25 for 3 / 2 / 1 stars.
+  final double starMultiplier;
   final bool isDoubled;
 
-  int get subtotal {
+  int get rawSubtotal {
     final value =
         baseCoins +
         comboBonus +
@@ -23,6 +27,11 @@ class RewardBreakdown {
         achievementBonus -
         assistancePenalty;
     return value < 0 ? 0 : value;
+  }
+
+  int get subtotal {
+    final scaled = (rawSubtotal * starMultiplier).round();
+    return scaled < 0 ? 0 : scaled;
   }
 
   int get totalCoins => subtotal * (isDoubled ? 2 : 1);
@@ -33,6 +42,7 @@ class RewardBreakdown {
     efficiencyBonus: efficiencyBonus,
     achievementBonus: achievementBonus,
     assistancePenalty: assistancePenalty,
+    starMultiplier: starMultiplier,
     isDoubled: isDoubled ?? this.isDoubled,
   );
 }

@@ -10,13 +10,7 @@ enum AchievementId {
 }
 
 class AchievementResult {
-  const AchievementResult({
-    required this.id,
-    required this.title,
-    required this.description,
-  });
+  const AchievementResult({required this.id});
 
   final AchievementId id;
-  final String title;
-  final String description;
 }

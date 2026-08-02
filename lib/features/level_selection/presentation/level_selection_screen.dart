@@ -6,9 +6,11 @@ import '../../../core/audio/audio_service.dart';
 import '../../../core/widgets/cosmic_backdrop.dart';
 import '../../../core/widgets/glass_panel.dart';
 import '../../../core/widgets/premium_navigation.dart';
+import '../../../l10n/l10n_extensions.dart';
 import '../../game/data/campaign_levels.dart';
 import '../../game/presentation/game_screen.dart';
 import '../../progress/data/progress_repository.dart';
+import '../../progress/presentation/achievements_dialog.dart';
 import '../../settings/presentation/settings_screen.dart';
 
 class LevelSelectionScreen extends ConsumerStatefulWidget {
@@ -31,6 +33,7 @@ class _LevelSelectionScreenState extends ConsumerState<LevelSelectionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final progress = ref.read(progressRepositoryProvider);
     final unlocked = progress.highestUnlockedLevel;
     final completed = progress.completedLevels;
@@ -53,7 +56,7 @@ class _LevelSelectionScreenState extends ConsumerState<LevelSelectionScreen> {
                       children: [
                         PremiumCircleButton(
                           icon: Icons.arrow_back_rounded,
-                          tooltip: 'Geri',
+                          tooltip: l10n.back,
                           onPressed: () => Navigator.of(context).pop(),
                         ),
                         const SizedBox(width: 11),
@@ -72,11 +75,16 @@ class _LevelSelectionScreenState extends ConsumerState<LevelSelectionScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'BÖLÜM HARİTASI',
+                                l10n.levelMapTitle,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: Theme.of(context).textTheme.titleLarge,
                               ),
                               Text(
-                                '${completed.length}/$totalLevels bölüm tamamlandı',
+                                l10n.levelsCompletedProgress(completed.length, totalLevels,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
                                   color: AppColors.textMuted,
                                   fontSize: 10,
@@ -133,13 +141,14 @@ class _LevelSelectionScreenState extends ConsumerState<LevelSelectionScreen> {
                           ),
                         ),
                       ),
-                      const Align(
+                      Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 14),
+                          padding: const EdgeInsets.symmetric(horizontal: 14),
                           child: Text(
-                            'YENİ DENEYLER\nPORTAL • BOMBA • VALF • REAKTÖR',
-                            style: TextStyle(
+                            l10n.newExperimentsBanner,
+                            softWrap: true,
+                            style: const TextStyle(
                               fontSize: 11,
                               fontWeight: FontWeight.w900,
                               color: Colors.white,
@@ -173,6 +182,7 @@ class _LevelSelectionScreenState extends ConsumerState<LevelSelectionScreen> {
                     level: level,
                     isUnlocked: isUnlocked,
                     isCompleted: isCompleted,
+                    playLabel: l10n.play,
                     stars: rewards != null
                         ? rewards.starsFor(level)
                         : !isCompleted
@@ -190,8 +200,8 @@ class _LevelSelectionScreenState extends ConsumerState<LevelSelectionScreen> {
                         ? Icons.arrow_downward_rounded
                         : definition.movingEveryMoves > 0
                         ? Icons.swap_horiz_rounded
-                        : definition.completionOrder.isNotEmpty
-                        ? Icons.format_list_numbered_rounded
+                        : definition.hasNarrowTube
+                        ? Icons.compress_rounded
                         : definition.mixRecipes.isNotEmpty
                         ? Icons.science_rounded
                         : definition.heatedTubeId != null
@@ -211,6 +221,8 @@ class _LevelSelectionScreenState extends ConsumerState<LevelSelectionScreen> {
                         ? AppColors.cyan
                         : definition.valveTubeId != null
                         ? const Color(0xFFFFC34A)
+                        : definition.hasNarrowTube
+                        ? const Color(0xFFFF8A5B)
                         : definition.mixRecipes.isNotEmpty
                         ? AppColors.mint
                         : definition.heatedTubeId != null
@@ -226,27 +238,30 @@ class _LevelSelectionScreenState extends ConsumerState<LevelSelectionScreen> {
               items: [
                 PremiumBottomItem(
                   icon: Icons.home_rounded,
-                  label: 'Ana Sayfa',
+                  label: l10n.home,
                   onTap: () => Navigator.of(context).pop(),
                 ),
                 PremiumBottomItem(
                   icon: Icons.map_rounded,
-                  label: 'Bölümler',
+                  label: l10n.levels,
                   onTap: () {},
                 ),
                 PremiumBottomItem(
                   icon: Icons.emoji_events_rounded,
-                  label: 'Başarılar',
+                  label: l10n.achievements,
                   onTap: _showAchievements,
                 ),
                 PremiumBottomItem(
                   icon: Icons.settings_rounded,
-                  label: 'Ayarlar',
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute<void>(
-                      builder: (_) => const SettingsScreen(),
-                    ),
-                  ),
+                  label: l10n.settings,
+                  onTap: () async {
+                    await Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (_) => const SettingsScreen(),
+                      ),
+                    );
+                    if (mounted) setState(() {});
+                  },
                 ),
               ],
             ),
@@ -256,39 +271,15 @@ class _LevelSelectionScreenState extends ConsumerState<LevelSelectionScreen> {
     );
   }
 
-  void _showAchievements() {
-    showModalBottomSheet<void>(
+  Future<void> _showAchievements() async {
+    final progress = ref.read(progressRepositoryProvider);
+    final rewards = progress is RewardProgressRepository
+        ? progress as RewardProgressRepository
+        : null;
+    await showAchievementsDialog(
       context: context,
-      backgroundColor: Colors.transparent,
-      builder: (context) => Padding(
-        padding: const EdgeInsets.all(16),
-        child: GlassPanel(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Image.asset(
-                'assets/images/progress_crown_badge.png',
-                width: 105,
-                height: 105,
-                fit: BoxFit.cover,
-              ),
-              const Text(
-                'BAŞARILAR',
-                style: TextStyle(
-                  color: Color(0xFFFFC34A),
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-              const SizedBox(height: 6),
-              const Text(
-                'Kusursuz Sıralama • Flow Ustası • İpucusuz • Yeni Rekor',
-                textAlign: TextAlign.center,
-                style: TextStyle(color: AppColors.textMuted, fontSize: 11),
-              ),
-            ],
-          ),
-        ),
-      ),
+      progress: progress,
+      rewards: rewards,
     );
   }
 }
@@ -321,6 +312,7 @@ class _LevelTile extends StatelessWidget {
     required this.level,
     required this.isUnlocked,
     required this.isCompleted,
+    required this.playLabel,
     required this.stars,
     required this.mechanicIcon,
     required this.mechanicColor,
@@ -330,6 +322,7 @@ class _LevelTile extends StatelessWidget {
   final int level;
   final bool isUnlocked;
   final bool isCompleted;
+  final String playLabel;
   final int stars;
   final IconData? mechanicIcon;
   final Color mechanicColor;
@@ -380,13 +373,18 @@ class _LevelTile extends StatelessWidget {
                 ),
               )
             else if (isUnlocked)
-              Text(
-                'OYNA',
-                style: const TextStyle(
-                  color: AppColors.cyan,
-                  fontSize: 10,
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: 1,
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  playLabel,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: AppColors.cyan,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 1,
+                  ),
                 ),
               ),
           ],

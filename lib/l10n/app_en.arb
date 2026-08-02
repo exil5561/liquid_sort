@@ -1,0 +1,616 @@
+{
+  "@@locale": "en",
+  "appTitle": "Liquid Sort Puzzle",
+  "brandName": "Liquid Sort",
+  "brandPuzzle": "PUZZLE",
+  "splashTagline": "Sort the colors. Clear your mind.",
+  "back": "Back",
+  "cancel": "Cancel",
+  "play": "PLAY",
+  "settings": "Settings",
+  "home": "Home",
+  "levels": "Levels",
+  "collection": "Collection",
+  "achievements": "Achievements",
+  "continueLabel": "Continue",
+  "pause": "Pause",
+  "close": "Close",
+  "free": "Free",
+  "coin": "Coin",
+  "coins": "Coins",
+  "secondsShort": "s",
+  "moves": "Moves",
+  "best": "Best",
+  "par": "Par",
+  "locked": "Locked",
+  "ad": "AD",
+  "watchAd": "Watch ad",
+  "claiming": "Claiming...",
+  "homeTagline": "Sort smart, mix colors!",
+  "progressAndAchievements": "PROGRESS & ACHIEVEMENTS",
+  "progressTapHint": "Tap: stats and badges",
+  "dailyReward": "Daily Reward",
+  "rewardReady": "Reward ready",
+  "comeTomorrow": "Come tomorrow",
+  "collectionSubtitle": "Browse themes",
+  "premiumThemes": "PREMIUM THEMES",
+  "premiumThemesBody": "Classic, Galaxy, Ocean, Neon and Golden Age themes unlock here.",
+  "playCta": "PLAY",
+  "dailyClaimSnack": "+{coins} coins{hintSuffix}",
+  "@dailyClaimSnack": {
+    "placeholders": {
+      "coins": {
+        "type": "int",
+        "format": "decimalPattern"
+      },
+      "hintSuffix": {
+        "type": "String"
+      }
+    }
+  },
+  "freeHintSuffix": " + {count} free hint",
+  "@freeHintSuffix": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "levelMapTitle": "LEVEL MAP",
+  "levelsCompletedProgress": "{completed}/{total} levels completed",
+  "@levelsCompletedProgress": {
+    "placeholders": {
+      "completed": {
+        "type": "int",
+        "format": "decimalPattern"
+      },
+      "total": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "newExperimentsBanner": "NEW EXPERIMENTS\nPORTAL • BOMB • VALVE • REACTOR",
+  "settingsTitle": "SETTINGS",
+  "settingsSubtitleAudio": "Sound and haptics controls",
+  "settingsSubtitleVisual": "Colors, patterns and animations",
+  "settingsSubtitleGeneral": "Difficulty and general preferences",
+  "sectionAudioFeedback": "SOUND & FEEDBACK",
+  "soundEffects": "Sound effects",
+  "soundEffectsSubtitle": "Select, pour and success sounds",
+  "backgroundMusic": "Background music",
+  "backgroundMusicSubtitle": "Calm cosmic ambient music",
+  "haptics": "Haptics",
+  "hapticsSubtitle": "Light feedback on taps",
+  "sectionVisual": "VISUAL PREFERENCES",
+  "neonPalette": "Neon liquid palette",
+  "neonPaletteSubtitle": "Vivid neon colors used in the game",
+  "colorAccessibility": "Color accessibility",
+  "colorAccessibilitySubtitle": "Adds subtle patterns to liquids",
+  "reducedAnimations": "Reduced animations",
+  "reducedAnimationsSubtitle": "Speeds up pour motions",
+  "sectionDifficulty": "DIFFICULTY & TIME PRESSURE",
+  "offlineProgress": "Offline progress",
+  "offlineProgressBody": "Your levels and settings are saved safely on this device.",
+  "settingsVersion": "Liquid Sort Puzzle  •  v{version}",
+  "@settingsVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "tabAudio": "Audio",
+  "tabVisual": "Visual",
+  "tabGeneral": "Settings",
+  "language": "Language",
+  "languageSubtitle": "Choose app language",
+  "languageSystem": "System default",
+  "languageSystemSubtitle": "Match your phone or tablet language",
+  "difficultyEasy": "Easy",
+  "difficultyNormal": "Normal",
+  "difficultyHard": "Hard",
+  "difficultyEasyDesc": "No time pressure • fewer coins • more interstitial ads",
+  "difficultyNormalDesc": "Moderate timer, light pressure",
+  "difficultyHardDesc": "Very short timer, -5s on mistakes",
+  "dailyRewardTitle": "DAILY REWARD",
+  "dailyRewardClaimBody": "Claim today's gift. Come back daily to grow the reward.",
+  "dailyRewardClaimedBody": "You already claimed today. Come back tomorrow.",
+  "dailyStreak": "Streak: {streak} days",
+  "@dailyStreak": {
+    "placeholders": {
+      "streak": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "dayChip": "D{day}",
+  "@dayChip": {
+    "placeholders": {
+      "day": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "plusHint": "+hint",
+  "claimDailyReward": "Claim today's reward",
+  "comeAgainTomorrow": "Come again tomorrow",
+  "achievementsTitle": "ACHIEVEMENTS",
+  "achGreetingEmpty": "You're set. Finish your first level and badges will start stacking here.",
+  "achGreetingFlow": "Your flow is on fire — you've got this game's rhythm.",
+  "achGreetingStars": "Your star collection shines. Keep going, legend.",
+  "achGreetingVeteran": "Nice pace. The lab is matching your tempo.",
+  "achGreetingProgress": "Solid progress. Every clean level makes you sharper.",
+  "achGreetingStarter": "Strong start. A few more levels and badges will pour in.",
+  "statLevel": "Level",
+  "statStars": "Stars",
+  "statCoins": "Coins",
+  "statFlow": "Flow",
+  "statUnlocked": "Unlocked",
+  "achievementLocked": "Locked",
+  "achievementPerfectSort": "Perfect Sort",
+  "achievementPerfectSortDesc": "Finish within par with no assistance",
+  "achievementUnderPar": "Under Par",
+  "achievementUnderParDesc": "Do not exceed the target moves",
+  "achievementNoUndo": "No Undo",
+  "achievementNoUndoDesc": "Finish without using undo",
+  "achievementNoHint": "No Hints",
+  "achievementNoHintDesc": "Solve without using hints",
+  "achievementFlowMaster": "Flow Master",
+  "achievementFlowMasterDesc": "Reach Flow x5 in a level",
+  "achievementNewRecord": "New Record",
+  "achievementNewRecordDesc": "Beat your best move count",
+  "achievementFirstTry": "First Try",
+  "achievementFirstTryDesc": "Complete without restarting",
+  "achievementNoExtraTube": "No Extra Tube",
+  "achievementNoExtraTubeDesc": "Finish without adding a tube",
+  "undo": "Undo",
+  "restart": "Restart",
+  "hint": "Hint",
+  "addTube": "Add tube",
+  "perfect": "PERFECT!",
+  "levelCompleted": "Level {level} complete",
+  "@levelCompleted": {
+    "placeholders": {
+      "level": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "movesAndPar": "{moves} moves  •  Par {par}",
+  "@movesAndPar": {
+    "placeholders": {
+      "moves": {
+        "type": "int",
+        "format": "decimalPattern"
+      },
+      "par": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "newRecordAchievements": "NEW RECORD • ACHIEVEMENTS",
+  "achievementsHeader": "ACHIEVEMENTS",
+  "assistancePenalty": "Hint penalty: -{amount} coins",
+  "@assistancePenalty": {
+    "placeholders": {
+      "amount": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "doubleReward": "DOUBLE REWARD",
+  "goToLevels": "LEVELS",
+  "continueNext": "CONTINUE",
+  "backToLevelSelect": "Back to level select",
+  "bestLabel": "Best",
+  "flowCombo": "Flow Combo",
+  "extraTube": "Extra tube",
+  "fullReward": "Full reward",
+  "halfReward": "Half reward",
+  "quarterReward": "Quarter reward",
+  "starRewardLabel": "{stars}★ • {tone} ({percent}%)",
+  "@starRewardLabel": {
+    "placeholders": {
+      "stars": {
+        "type": "int",
+        "format": "decimalPattern"
+      },
+      "tone": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "newRule": "NEW RULE",
+  "gotItStart": "GOT IT, START",
+  "firstTimeTipOnly": "Shown only the first time",
+  "mechanicBasicsTitle": "HOW TO PLAY",
+  "mechanicBasicsHeadline": "Pick tubes, pour liquid",
+  "mechanicBasicsBody": "Tap a tube to select its top color. Then tap a target tube — matching colors can stack, or pour into an empty tube.",
+  "mechanicBasicsTip": "Goal: every filled tube becomes one solid color. Empty tubes are helpers.",
+  "mechanicBasicsCaption": "Select → Pour → Sort",
+  "mechanicHiddenTitle": "HIDDEN TUBE",
+  "mechanicHiddenHeadline": "Only the top color is visible",
+  "mechanicHiddenBody": "In this tube you only see the top color. Layers below stay foggy until the top clears.",
+  "mechanicHiddenTip": "Don't pour blind — clear the top first, reveal below, then decide.",
+  "mechanicHiddenCaption": "Top clear • lower foggy",
+  "mechanicMixTitle": "COLOR MIXING",
+  "mechanicMixHeadline": "Two colors combine into a new one",
+  "mechanicMixBody": "Pour certain colors onto each other to mix a new color. Follow the equations shown on top.",
+  "mechanicMixTip": "Amounts must match and the target needs free space.",
+  "mechanicMixCaption": "Red + Yellow = Orange",
+  "mechanicFrozenTitle": "FROZEN TUBE",
+  "mechanicFrozenHeadline": "Untouchable for a while",
+  "mechanicFrozenBody": "You can't pour into or out of an iced tube. After enough moves, the ice melts.",
+  "mechanicFrozenTip": "Open a path with other tubes; use it as soon as ice clears.",
+  "mechanicFrozenCaption": "Wait moves → ice melts",
+  "mechanicLockedTitle": "LOCKED TUBE",
+  "mechanicLockedHeadline": "Finish another tube first",
+  "mechanicLockedBody": "A locked tube stays closed until you complete a set number of tubes.",
+  "mechanicLockedTip": "Finish easy tubes first, then use the locked space.",
+  "mechanicLockedCaption": "Complete → unlock",
+  "mechanicHeatedTitle": "HEATER TUBE",
+  "mechanicHeatedHeadline": "Vaporize waste liquid",
+  "mechanicHeatedBody": "Liquid poured into the heater disappears. Heat charges are limited — usually for waste colors.",
+  "mechanicHeatedTip": "When heat is gone you can't pour there. Clear waste early.",
+  "mechanicHeatedCaption": "Waste → vapor",
+  "mechanicValveTitle": "ONE-WAY VALVE",
+  "mechanicValveHeadline": "Only pours in",
+  "mechanicValveBody": "You can pour into a valve tube but can't take liquid out. It acts like a permanent store.",
+  "mechanicValveTip": "Wrong color can trap you. Fill valves carefully.",
+  "mechanicValveCaption": "In only",
+  "mechanicPortalTitle": "PORTAL PAIR",
+  "mechanicPortalHeadline": "Enter one, exit the other",
+  "mechanicPortalBody": "Pour into one portal and the liquid appears in its twin. The two tubes are linked.",
+  "mechanicPortalTip": "Target one portal — the fill happens on the other side.",
+  "mechanicPortalCaption": "A in → B out",
+  "mechanicBombTitle": "BOMB TUBE",
+  "mechanicBombHeadline": "Finish before the timer",
+  "mechanicBombBody": "The marked tube has a countdown. Fill it with one color before it hits zero or the level fails.",
+  "mechanicBombTip": "Secure the bomb tube first, then sort the rest.",
+  "mechanicBombCaption": "Fill before countdown ends",
+  "mechanicNarrowTitle": "NARROW TUBE",
+  "mechanicNarrowHeadline": "Capacity-2 buffer",
+  "mechanicNarrowBody": "This level has a short helper tube that holds at most 2 units. Use it for tight maneuvers.",
+  "mechanicNarrowTip": "It must be empty to finish. Holding 2 units does not count as complete — empty it again.",
+  "mechanicNarrowCaption": "Capacity 2 • empty to finish",
+  "mechanicMovingTitle": "MOVING LAYOUT",
+  "mechanicMovingHeadline": "Tubes swap places",
+  "mechanicMovingBody": "Every few moves the board shifts and tube order changes. Same tubes — new positions.",
+  "mechanicMovingTip": "Track tubes by id and colors.",
+  "mechanicMovingCaption": "Shifts every 3 moves",
+  "mechanicBossTitle": "BOSS EXPERIMENT",
+  "mechanicBossHeadline": "Tougher rules",
+  "mechanicBossBody": "Boss levels have a move limit and may combine several special rules. Play with a plan.",
+  "mechanicBossTip": "Stay near par; avoid wasteful undos and messy pours.",
+  "mechanicBossCaption": "Limit + special rules",
+  "levelNumber": "Level {level}",
+  "@levelNumber": {
+    "placeholders": {
+      "level": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "movesLabel": "Moves",
+  "headerMeta": "Par {par}  •  Unlimited retries  •  Offline",
+  "@headerMeta": {
+    "placeholders": {
+      "par": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "pauseTooltip": "Pause",
+  "resumeTooltip": "Resume",
+  "settingsTooltip": "Settings",
+  "pausedTitle": "GAME PAUSED",
+  "pausedBody": "Timer and countdown sounds are paused.",
+  "resumeCta": "RESUME",
+  "tempoBadge": "{difficulty}  {seconds} s",
+  "@tempoBadge": {
+    "placeholders": {
+      "difficulty": {
+        "type": "String"
+      },
+      "seconds": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "easyRelaxed": "EASY  •  RELAXED",
+  "bossMovesLeft": "BOSS • {moves} MOVES",
+  "@bossMovesLeft": {
+    "placeholders": {
+      "moves": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "hiddenLiquid": "HIDDEN LIQUID",
+  "frozenTube": "FROZEN TUBE",
+  "iceCleared": "ICE CLEARED",
+  "lockedTube": "LOCKED TUBE",
+  "lockOpened": "LOCK OPENED",
+  "heatBurn": "BURN WASTE • {remaining}",
+  "@heatBurn": {
+    "placeholders": {
+      "remaining": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "heatTube": "HEAT TUBE • {remaining}",
+  "@heatTube": {
+    "placeholders": {
+      "remaining": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "portalPair": "PORTAL PAIR",
+  "oneWayValve": "ONE-WAY VALVE",
+  "bombCountdown": "BOMB • {remaining}",
+  "@bombCountdown": {
+    "placeholders": {
+      "remaining": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "movingEvery": "MOVES EVERY {moves}",
+  "@movingEvery": {
+    "placeholders": {
+      "moves": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "narrowTubeCap2": "NARROW TUBE • CAP 2",
+  "hiddenMix": "HIDDEN MIX",
+  "portalFlow": "PORTAL FLOW!",
+  "tubesShifted": "TUBES SHIFTED!",
+  "bombMovesLeft": "BOMB: {remaining} MOVES!",
+  "@bombMovesLeft": {
+    "placeholders": {
+      "remaining": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "iceBroken": "Ice broken! The frozen tube is usable now.",
+  "lockUnlocked": "Lock opened! A new tube is ready.",
+  "tubeFrozenMsg": "This tube is frozen. A few correct moves will thaw it.",
+  "tubeLockedMsg": "This tube is locked. Complete another color first.",
+  "valveOneWayMsg": "The gold valve is one-way: you can pour in, but not out.",
+  "heatExhaustedMsg": "This heater is out of burn charges.",
+  "insufficientCoins": "Not enough coins ({cost}).",
+  "@insufficientCoins": {
+    "placeholders": {
+      "cost": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "adFailed": "Ad could not be completed.",
+  "reopenPaid": "-{cost} coins • {title} reopened",
+  "@reopenPaid": {
+    "placeholders": {
+      "cost": {
+        "type": "int",
+        "format": "decimalPattern"
+      },
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "reopenAd": "Opened with ad • {title}",
+  "@reopenAd": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "tipQuotaEmpty": "You're out of hints for this level.",
+  "rewardsNotReady": "Reward system is not ready.",
+  "freeHintUsed": "Free hint used.",
+  "hintCost": "Hint: -{cost} coins",
+  "@hintCost": {
+    "placeholders": {
+      "cost": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "noHintAvailable": "No useful hint right now.",
+  "assistHint": "hint",
+  "assistUndo": "undo",
+  "freeHintEarned": "1 free hint earned.",
+  "freeUndoEarned": "1 free undo earned.",
+  "failureCredit": "-{deducted} credit • failed attempt (min {floor})",
+  "@failureCredit": {
+    "placeholders": {
+      "deducted": {
+        "type": "int",
+        "format": "decimalPattern"
+      },
+      "floor": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "debtLimitToast": "Debt limit ({floor}). Watch an ad to retry.",
+  "@debtLimitToast": {
+    "placeholders": {
+      "floor": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "restartCredit": "-{deducted} credit • restart",
+  "@restartCredit": {
+    "placeholders": {
+      "deducted": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "insufficientCoinsTitle": "Not enough coins ({cost})",
+  "@insufficientCoinsTitle": {
+    "placeholders": {
+      "cost": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "watchAdEarnAssist": "Watch an ad to earn 1 free {label}.",
+  "@watchAdEarnAssist": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "debtLimitTitle": "Debt limit ({floor})",
+  "@debtLimitTitle": {
+    "placeholders": {
+      "floor": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "debtLimitBody": "You're at the debt floor. Watch an ad to try again.",
+  "tipUnlockPaidBody": "You saw this rule once for free.\nRe-reading costs coins.",
+  "tipUnlockAdBody": "Not enough coins.\nWatch an ad to open this tip for free.",
+  "yourBalance": "Balance: ",
+  "payCost": "Pay {cost}",
+  "@payCost": {
+    "placeholders": {
+      "cost": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "timeUp": "TIME'S UP",
+  "bombExploded": "BOMB EXPLODED",
+  "moveLimitReached": "MOVE LIMIT REACHED",
+  "failurePenaltyLine": "Failed attempt: -{amount} credit (debt min {floor}).",
+  "@failurePenaltyLine": {
+    "placeholders": {
+      "amount": {
+        "type": "int",
+        "format": "decimalPattern"
+      },
+      "floor": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "tryEasyModeHint": "You can turn off time pressure in Easy mode.",
+  "bombFailHint": "Fill the marked tube with one color before the red countdown ends.",
+  "bossFailHint": "Boss experiment exceeded the move limit. Plan mixes and empty tubes carefully.",
+  "debtLimitRetryHint": "You're at the debt limit — watch an ad to retry.",
+  "retryWithAd": "WATCH AD • RETRY",
+  "retryAgain": "TRY AGAIN",
+  "vaporized": "VAPORIZED!",
+  "colorClearedBonus": "{color} CLEARED  •  +4 S",
+  "@colorClearedBonus": {
+    "placeholders": {
+      "color": {
+        "type": "String"
+      }
+    }
+  },
+  "newColorFormed": "NEW COLOR FORMED!",
+  "colorBonusSeconds": "{color}  •  +6 S",
+  "@colorBonusSeconds": {
+    "placeholders": {
+      "color": {
+        "type": "String"
+      }
+    }
+  },
+  "legendaryFlow": "LEGENDARY FLOW!",
+  "flowMultiplier": "FLOW x{combo}",
+  "@flowMultiplier": {
+    "placeholders": {
+      "combo": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "legendaryFlowLabel": "Legendary Flow",
+  "flowLabel": "FLOW x{multiplier}",
+  "@flowLabel": {
+    "placeholders": {
+      "multiplier": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "tubeSemantics": "Tube {id}, {units} units filled",
+  "@tubeSemantics": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      },
+      "units": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "colorRed": "Red",
+  "colorBlue": "Blue",
+  "colorPurple": "Purple",
+  "colorYellow": "Yellow",
+  "colorGreen": "Green",
+  "colorOrange": "Orange",
+  "colorPink": "Pink",
+  "colorCyan": "Cyan",
+  "colorLime": "Lime",
+  "colorBrown": "Brown",
+  "skipLevelOfferBody": "This level is tough. Watch an ad to unlock the next one.",
+  "skipLevelCta": "WATCH AD • SKIP",
+  "skipLevelNote": "You can come back and finish this level later.",
+  "skipLevelUnlocked": "Next level unlocked!",
+  "developerModeTitle": "Developer Mode",
+  "developerModePasswordHint": "Password",
+  "developerModeUnlock": "Unlock",
+  "developerModeEnabled": "All levels unlocked for testing.",
+  "developerModeWrongPassword": "Wrong password",
+  "developerModeActive": "Developer mode active",
+  "developerModeDisable": "Disable developer mode"
+}

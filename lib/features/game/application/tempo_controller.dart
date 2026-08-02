@@ -92,13 +92,15 @@ class TempoController extends Notifier<TempoState> {
       state = const TempoState.disabled();
       return;
     }
+    // Normal: slightly tighter than before (was ×4.5, 40–95).
+    // Hard: short pressure window.
     final baseSeconds = difficulty == GameDifficulty.hard
         ? (parMoves * 1.8).round().clamp(15, 38)
-        : (parMoves * 4.5).round().clamp(40, 95);
+        : (parMoves * 3.6).round().clamp(32, 80);
     final seconds = boss
         ? (baseSeconds * .65).round().clamp(
-            difficulty == GameDifficulty.hard ? 12 : 25,
-            difficulty == GameDifficulty.hard ? 28 : 60,
+            difficulty == GameDifficulty.hard ? 12 : 22,
+            difficulty == GameDifficulty.hard ? 28 : 52,
           )
         : baseSeconds;
     state = TempoState(

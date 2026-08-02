@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../../../app/theme/app_colors.dart';
+import '../../../../l10n/l10n_extensions.dart';
 import '../../domain/liquid_color_id.dart';
 import '../../domain/tube_model.dart';
 
@@ -86,7 +87,8 @@ class GlassTubeWidget extends StatelessWidget {
         completed;
     return Semantics(
       button: true,
-      label: 'Tüp ${tube.id}, ${tube.liquids.length} birim dolu',
+      label: context.l10n.tubeSemantics(tube.id, tube.liquids.length,
+      ),
       selected: isSelected,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 180),
@@ -250,6 +252,32 @@ class GlassTubeWidget extends StatelessWidget {
                     child: const Icon(
                       Icons.arrow_downward_rounded,
                       color: Color(0xFFFFD166),
+                    ),
+                  ),
+                ),
+              ),
+            if (tube.isNarrow)
+              Positioned(
+                left: width * .18,
+                right: width * .18,
+                bottom: height * .08,
+                child: IgnorePointer(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 2),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: const Color(0xCC5A2410),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: const Color(0xFFFF8A5B)),
+                    ),
+                    child: Text(
+                      '${tube.capacity}',
+                      style: TextStyle(
+                        color: const Color(0xFFFF8A5B),
+                        fontSize: width * .18,
+                        fontWeight: FontWeight.w900,
+                        height: 1,
+                      ),
                     ),
                   ),
                 ),
@@ -427,7 +455,11 @@ class GlassTubePainter extends CustomPainter {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: hidden
-                ? const [Color(0xFF3A4771), Color(0xFF202A4E)]
+                ? const [
+                    Color(0xFF3A4771),
+                    Color(0xFF2A355C),
+                    Color(0xFF202A4E),
+                  ]
                 : [style.highlight, style.base, style.dark],
             stops: const [0, .5, 1],
           ).createShader(rect),
