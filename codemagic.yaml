@@ -4,8 +4,8 @@
 # Bundle ID: com.taslaktech.games.liquidsort
 #
 # One-time Codemagic setup:
-# 1. Team integrations > Developer Portal: App Store Connect API key named
-#    exactly "App Store Connect" (App Manager or Admin).
+# 1. Team integrations > Developer Portal: reuse existing API key named
+#    exactly "Codemagic" (same key as eSIMstep; one key for all apps).
 # 2. Application settings > Environment variables:
 #      Name: CERTIFICATE_PRIVATE_KEY
 #      Group: ios_credentials (or any group referenced below)
@@ -23,7 +23,7 @@ workflows:
     instance_type: mac_mini_m2
 
     integrations:
-      app_store_connect: App Store Connect
+      app_store_connect: Codemagic
 
     environment:
       flutter: 3.41.6
